@@ -33,7 +33,30 @@ struct Author: Codable, Identifiable {
 extension JSONDecoder {
     static func videoDecoder() -> JSONDecoder {
         let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        decoder.dateDecodingStrategy = .custom { decoder in
+            let container = try decoder.singleValueContainer()
+            let dateString = try container.decode(String.self)
+
+            // Try with fractional seconds first
+            if let date = formatter.date(from: dateString) {
+                return date
+            }
+
+            // Try again without fractional seconds if needed
+            formatter.formatOptions = [.withInternetDateTime]
+            if let date = formatter.date(from: dateString) {
+                return date
+            }
+
+            throw DecodingError.dataCorruptedError(
+                in: container,
+                debugDescription: "Expected date string to be ISO8601-formatted."
+            )
+        }
         return decoder
     }
 }
+
+
