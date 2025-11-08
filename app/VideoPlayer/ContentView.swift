@@ -10,7 +10,7 @@ import AVKit
 import MarkdownUI
 
 struct ContentView: View {
-    @StateObject private var videoPlayerVM = VideoPlayerViewModel()
+    @StateObject private var videoPlayerVM = VideoPlayerViewModel(api: APIClient())
 
     var body: some View {
         NavigationView {

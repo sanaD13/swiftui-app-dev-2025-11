@@ -52,7 +52,7 @@ struct VideoPlayerControlsView: View {
 }
 
 #Preview {
-    @Previewable @StateObject var vm = VideoPlayerViewModel()
+    @Previewable @StateObject var vm = VideoPlayerViewModel(api: APIClient())
     VideoPlayerControlsView(videoPlayerVM: vm)
 }
 

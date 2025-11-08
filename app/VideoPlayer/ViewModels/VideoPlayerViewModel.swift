@@ -15,15 +15,15 @@ final class VideoPlayerViewModel: ObservableObject {
     @Published var player: AVPlayer? = nil
     @Published var isPlaying: Bool = false
     @Published var errorMessage: String? = nil
-
+    
     private let fetchVideosAPI: APIClient
     private var cancellables = Set<AnyCancellable>()
-
+    
     var currentVideo: Video? {
         guard videos.indices.contains(currentIndex) else { return nil }
         return videos[currentIndex]
     }
-
+    
     var canGoNext: Bool {
         return currentIndex < videos.count - 1
     }
@@ -31,12 +31,19 @@ final class VideoPlayerViewModel: ObservableObject {
     var canGoPrevious: Bool {
         return currentIndex > 0
     }
-
+    
     init(api: APIClient = APIClient()) {
         self.player = AVPlayer()
         self.fetchVideosAPI = api
     }
-
+    
+    // TODO: adding another initializer for testing. Should find a better solution
+    init(videos: [Video] = []) {
+        self.videos = videos
+        self.player = AVPlayer()
+        self.fetchVideosAPI = APIClient()
+    }
+    
     func fetchAndLoad() {
         fetchVideosAPI.fetchVideos { [weak self] result in
             DispatchQueue.main.async {
@@ -55,24 +62,24 @@ final class VideoPlayerViewModel: ObservableObject {
             }
         }
     }
-
+    
     func loadVideo(at index: Int, play: Bool) {
         guard videos.indices.contains(index), let player = self.player else { return }
         currentIndex = index
-
+        
         let newItem = AVPlayerItem(url: videos[index].playbackURL)
         player.replaceCurrentItem(with: newItem)
         // ensure video is paused initially
         player.pause()
         isPlaying = false
-
+        
         // if coming from "next" or "previous" buttons, play the video
         if play {
             player.play()
             isPlaying = true
         }
     }
-
+    
     func playToggle() {
         guard let player = player else { return }
         if player.timeControlStatus == .playing {
@@ -82,13 +89,13 @@ final class VideoPlayerViewModel: ObservableObject {
         }
         isPlaying.toggle()
     }
-
+    
     func goNext() {
         guard canGoNext else { return }
         let nextIndex = currentIndex + 1
         loadVideo(at: nextIndex, play: true)
     }
-
+    
     func goPrevious() {
         guard canGoPrevious else { return }
         let prev = currentIndex - 1
