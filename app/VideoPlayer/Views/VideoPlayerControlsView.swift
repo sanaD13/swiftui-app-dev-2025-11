@@ -10,18 +10,18 @@ import AVKit
 
 struct VideoPlayerControlsView: View {
     @ObservedObject var videoPlayerVM: VideoPlayerViewModel
-
+    
     var body: some View {
         HStack(spacing: 24) {
             Button(action: { videoPlayerVM.goPrevious() }) {
                 Image("previous")
-                    .renderingMode(.template)
                     .resizable()
                     .frame(width: 28, height: 28)
             }
             .disabled(!videoPlayerVM.canGoPrevious)
             .opacity(videoPlayerVM.canGoPrevious ? 1.0 : 0.4)
-
+            .tint(.black)
+            
             Button(action: { videoPlayerVM.playToggle() }) {
                 Group {
                     if videoPlayerVM.isPlaying {
@@ -34,7 +34,8 @@ struct VideoPlayerControlsView: View {
                 }
                 .frame(width: 48, height: 48)
             }
-
+            .tint(.black)
+            
             Button(action: { videoPlayerVM.goNext() }) {
                 Image("next")
                     .resizable()
@@ -42,6 +43,7 @@ struct VideoPlayerControlsView: View {
             }
             .disabled(!videoPlayerVM.canGoNext)
             .opacity(videoPlayerVM.canGoNext ? 1.0 : 0.4)
+            .tint(.black)
         }
         .padding()
         .background(.ultraThinMaterial)
