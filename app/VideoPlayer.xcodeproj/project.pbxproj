@@ -27,6 +27,7 @@
 		3A6E03AB2EB54813008E2A35 /* VideoPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A6E03BB2EB54816008E2A35 /* VideoPlayerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VideoPlayerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A6E03C52EB54816008E2A35 /* VideoPlayerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VideoPlayerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9262D2532EBEF0D7002A6FD4 /* VideoPlayer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = VideoPlayer.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -89,6 +90,11 @@
 				3A6E03BB2EB54816008E2A35 /* VideoPlayerTests.xctest */,
 				3A6E03C52EB54816008E2A35 /* VideoPlayerUITests.xctest */,
 			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9262D2552EBEF0D7002A6FD4 /* Products */ = {
+			isa = PBXGroup;
 			name = Products;
 			sourceTree = "<group>";
 		};
@@ -198,6 +204,12 @@
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3A6E03AC2EB54813008E2A35 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 9262D2552EBEF0D7002A6FD4 /* Products */;
+					ProjectRef = 9262D2532EBEF0D7002A6FD4 /* VideoPlayer.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				3A6E03AA2EB54813008E2A35 /* VideoPlayer */,
