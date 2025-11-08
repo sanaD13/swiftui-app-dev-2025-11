@@ -27,11 +27,13 @@ final class VideoPlayerViewModel: ObservableObject {
     var canGoNext: Bool {
         return currentIndex < videos.count - 1
     }
+    
     var canGoPrevious: Bool {
         return currentIndex > 0
     }
 
     init(api: APIClient = APIClient()) {
+        self.player = AVPlayer()
         self.fetchVideosAPI = api
     }
 
@@ -55,16 +57,19 @@ final class VideoPlayerViewModel: ObservableObject {
     }
 
     func loadVideo(at index: Int, play: Bool) {
-        guard videos.indices.contains(index) else { return }
+        guard videos.indices.contains(index), let player = self.player else { return }
         currentIndex = index
-        let item = AVPlayerItem(url: videos[index].fullURL)
-        let av = AVPlayer(playerItem: item)
+
+        let newItem = AVPlayerItem(url: videos[index].playbackURL)
+        player.replaceCurrentItem(with: newItem)
         // ensure video is paused initially
-        av.pause()
-        self.player = av
-        self.isPlaying = false
+        player.pause()
+        isPlaying = false
+
+        // if coming from "next" or "previous" buttons, play the video
         if play {
-            playToggle()
+            player.play()
+            isPlaying = true
         }
     }
 
@@ -72,11 +77,10 @@ final class VideoPlayerViewModel: ObservableObject {
         guard let player = player else { return }
         if player.timeControlStatus == .playing {
             player.pause()
-            isPlaying = false
         } else {
             player.play()
-            isPlaying = true
         }
+        isPlaying.toggle()
     }
 
     func goNext() {
